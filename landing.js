@@ -7,7 +7,6 @@
 (function () {
   'use strict';
 
-  var WHATSAPP = '5588988160959';
   var SECTIONS = ['inicio', 'servicos', 'sobre', 'contato'];
 
   var app = document.getElementById('app');
@@ -151,33 +150,55 @@
     });
   });
 
-  // Formulário: monta a mensagem e abre o WhatsApp (nada é salvo no site)
-  var waButton = document.getElementById('wa-form');
-  var fields = [
-    ['f-nome', 'Nome'],
-    ['f-tel', 'Telefone'],
-    ['f-email', 'E-mail'],
-    ['f-assunto', 'Assunto'],
-    ['f-msg', 'Mensagem']
-  ];
+  // Formulário: envia direto para o e-mail do David pelo FormSubmit (sem servidor próprio).
+  // Na primeira mensagem, o FormSubmit manda um e-mail de ativação para o endereço abaixo;
+  // depois de confirmar uma vez, as mensagens passam a chegar normalmente.
+  var EMAIL = 'davidportelaadv@gmail.com';
+  var form = document.getElementById('contact-form');
+  var formButton = document.getElementById('form-btn');
+  var formButtonLabel = document.getElementById('form-btn-label');
+  var formStatus = document.getElementById('form-status');
 
-  function buildWhatsAppLink() {
-    var lines = ['Olá, David! Vim pelo site e gostaria de agendar um atendimento.'];
-    fields.forEach(function (field) {
-      var el = document.getElementById(field[0]);
-      var value = el ? el.value.trim() : '';
-      if (value) lines.push(field[1] + ': ' + value);
-    });
-    waButton.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(lines.join('\n'));
+  function showStatus(message, success) {
+    formStatus.textContent = message;
+    formStatus.style.color = success ? '#E2C886' : '#F2B8A0';
   }
 
-  if (waButton) {
-    fields.forEach(function (field) {
-      var el = document.getElementById(field[0]);
-      if (!el) return;
-      el.addEventListener('input', buildWhatsAppLink);
-      el.addEventListener('change', buildWhatsAppLink);
+  if (form && window.fetch) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      var data = {};
+      new FormData(form).forEach(function (value, key) { data[key] = value; });
+      if (data._honey) return; // robôs de spam preenchem o campo escondido
+      if (data.assunto) data._subject = 'Novo contato pelo site: ' + data.assunto;
+
+      formButton.disabled = true;
+      formButtonLabel.textContent = 'Enviando…';
+      showStatus('', true);
+
+      fetch('https://formsubmit.co/ajax/' + EMAIL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(function (response) {
+          return response.json().then(function (body) {
+            if (!response.ok || String(body.success) !== 'true') throw new Error(body.message || 'Falha no envio');
+          });
+        })
+        .then(function () {
+          form.reset();
+          showStatus('Mensagem enviada! Ela vai direto para o e-mail do David.', true);
+        })
+        .catch(function () {
+          showStatus('Não foi possível enviar agora. Tente de novo em instantes ou escreva para ' + EMAIL + '.', false);
+        })
+        .then(function () {
+          formButton.disabled = false;
+          formButtonLabel.textContent = 'Enviar mensagem';
+        });
     });
-    buildWhatsAppLink();
   }
 })();

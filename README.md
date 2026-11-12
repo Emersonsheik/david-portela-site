@@ -43,19 +43,18 @@ npx serve .
 - **Parallax e barra de progresso:** usam CSS scroll-driven animations (`animation-timeline`), com `@supports`. Navegadores sem suporte mostram a página sem esses efeitos.
 - `prefers-reduced-motion` é respeitado: sem animações, o menu faz só rolagem suave.
 
-## Formulário
+## Formulário de contato
 
-O formulário não envia nada para servidor. Ele monta a mensagem com os campos preenchidos e abre o WhatsApp (`wa.me`). Nenhum dado fica salvo no site.
+O formulário "Converse comigo" envia a mensagem direto para o e-mail do David usando o [FormSubmit](https://formsubmit.co), um serviço gratuito que funciona em sites estáticos como o GitHub Pages, sem servidor próprio.
+
+- **Ativação (uma vez só):** no primeiro envio pelo site publicado, o FormSubmit manda um e-mail de confirmação para `davidportelaadv@gmail.com`. É preciso clicar em **Activate Form** nesse e-mail (confira também a caixa de spam). Antes disso, as mensagens não são entregues.
+- O campo de e-mail de quem escreve vira o "Responder para" da mensagem, então basta responder pelo Gmail.
+- Há um campo escondido contra spam (`_honey`).
+- Os links de e-mail do site abrem a tela de escrever do Gmail.
 
 ## Pendências de conteúdo
 
-Trechos entre colchetes `[ ]` precisam ser preenchidos com informações do David:
-
-- [ ] Número e UF da OAB (topo, seção "Sobre" e rodapé — exigência da OAB na publicidade)
-- [ ] Cidade/UF e modalidade de atendimento (presencial e/ou online)
-- [ ] Áreas de atuação
-- [ ] Apresentação curta e formação (seção "Sobre")
-- [ ] Endereço do escritório (rodapé)
 - [ ] Fotos originais em alta resolução (as atuais vieram de prints do Instagram)
+- [ ] Endereço do escritório e modalidade de atendimento (presencial e/ou online), se quiser exibir
 
 A publicidade de advogados segue o Provimento 205/2021 do CFOAB: conteúdo informativo e sóbrio, sem promessa de resultado, preços ou captação de clientela.

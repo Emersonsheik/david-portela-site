@@ -158,3 +158,6 @@ html.menu-aberto{overflow:hidden}
 @media (min-width: 861px){
 .mnav{display:none}
 }
+
+/* Botão do formulário durante o envio */
+.pill:disabled{opacity:.65;cursor:wait;transform:none;box-shadow:none}
