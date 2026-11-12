@@ -8,13 +8,14 @@
   'use strict';
 
   var WHATSAPP = '5588988160959';
-  var HEADER_OFFSET = 76;
   var SECTIONS = ['inicio', 'servicos', 'sobre', 'contato'];
 
   var app = document.getElementById('app');
   var header = document.querySelector('.hdr');
   var wipe = document.querySelector('.wipe');
-  var navLinks = document.querySelectorAll('.nv[data-go]');
+  var navLinks = document.querySelectorAll('.nv[data-go], .mlink[data-go]');
+  var menuBtn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-mobile');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
   var transitioning = false;
@@ -62,10 +63,46 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // Menu do celular (abre em tela cheia; os links usam a mesma transição de slide)
+  function openMenu() {
+    if (!menu) return;
+    menu.classList.add('open');
+    menu.inert = false;
+    menu.setAttribute('aria-hidden', 'false');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Fechar menu');
+    document.documentElement.classList.add('menu-aberto');
+    var current = menu.querySelector('.mlink.on') || menu.querySelector('a');
+    if (current) current.focus({ preventScroll: true });
+  }
+  function closeMenu(returnFocus) {
+    if (!menu || !menu.classList.contains('open')) return;
+    menu.classList.remove('open');
+    menu.inert = true;
+    menu.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Abrir menu');
+    document.documentElement.classList.remove('menu-aberto');
+    if (returnFocus) menuBtn.focus();
+  }
+  if (menu && menuBtn) {
+    menu.inert = true;
+    menuBtn.addEventListener('click', function () {
+      if (menu.classList.contains('open')) closeMenu(true);
+      else openMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMenu(true);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 860) closeMenu(false);
+    });
+  }
+
   // Transição de slide ao clicar no menu
   var t1, t2, t3;
   function scrollToSection(section, behavior) {
-    var top = section.id === 'inicio' ? 0 : section.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+    var top = section.id === 'inicio' ? 0 : section.getBoundingClientRect().top + window.scrollY - header.offsetHeight;
     var html = document.documentElement;
     var previous = html.style.scrollBehavior;
     if (behavior === 'auto') html.style.scrollBehavior = 'auto';
@@ -80,6 +117,7 @@
     if (history.replaceState) history.replaceState(null, '', '#' + id);
 
     if (reduceMotion) {
+      closeMenu(false);
       scrollToSection(section, 'smooth');
       return;
     }
@@ -91,6 +129,7 @@
     wipe.classList.add('in');
 
     t1 = setTimeout(function () {
+      closeMenu(false); // o menu do celular fecha por trás do painel
       scrollToSection(section, 'auto');
       section.querySelectorAll('[data-rv]').forEach(function (el) { el.classList.add('in'); });
       void section.offsetWidth; // reinicia a animação se a mesma seção for escolhida de novo

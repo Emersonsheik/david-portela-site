@@ -6,13 +6,18 @@ Site estático: HTML, CSS e JavaScript puros, sem build e sem dependências.
 
 ## Estrutura
 
+Todos os arquivos ficam na raiz do repositório:
+
 ```
-index.html                landing page (menu fixo, animações e formulário via WhatsApp)
-links.html                página de links para a bio do Instagram
-assets/css/landing.css    estilos e animações da landing
-assets/css/links.css      estilos da página de links
-assets/js/landing.js      menu fixo, revelação ao rolar, transição de slide e formulário
-assets/img/               monograma DP, favicon e fotos
+index.html              landing page (menu fixo, animações e formulário via WhatsApp)
+links.html              página de links para a bio do Instagram
+landing.css             estilos, animações e ajustes para celular da landing
+links.css               estilos da página de links
+landing.js              menu fixo e menu do celular, revelação ao rolar, transição de slide e formulário
+dp-monograma.png        monograma DP
+favicon.png             ícone da aba
+david-terno-azul.webp   foto do topo
+david-terno-cinza.webp  foto da seção "Sobre"
 ```
 
 ## Rodar localmente
@@ -25,13 +30,14 @@ npx serve .
 
 ## Publicar no GitHub Pages
 
-1. Envie os arquivos para um repositório no GitHub (branch `main`, na raiz).
+1. Envie os arquivos para a raiz de um repositório no GitHub (branch `main`).
 2. No repositório, abra **Settings → Pages** e escolha publicar a partir da branch `main`, pasta `/ (root)`.
 3. O site fica em `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`, e a página de links em `.../links.html`.
 
 ## Como funcionam as animações
 
 - **Abertura:** ao carregar, um painel com o monograma cobre a tela e sai como um slide (`.wipe.intro`, só CSS); em seguida o conteúdo do topo entra deslizando.
+- **Celular:** abaixo de 860 px o menu vira um botão que abre um menu em tela cheia; os links dele usam a mesma transição de slide.
 - **Rolagem:** cada bloco com `data-rv` aparece quando entra na tela (`IntersectionObserver` + classes `.rv`, `.rv-l`, `.rv-r`, `.rv-z`, `.rv-pop`, `.rv-line`).
 - **Menu:** links com `data-go` disparam a transição de slide (`.wipe`) e reanimam a seção de destino com a classe `.replay`.
 - **Parallax e barra de progresso:** usam CSS scroll-driven animations (`animation-timeline`), com `@supports`. Navegadores sem suporte mostram a página sem esses efeitos.
