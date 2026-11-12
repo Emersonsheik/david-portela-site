@@ -1,0 +1,128 @@
+/* David Portela — landing page */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#0F1526}
+html{scroll-behavior:smooth}
+a{color:#D9BC7E;text-decoration:none}
+a:hover{color:#EBD3A0}
+.hdr{border-bottom:1px solid transparent;transition:background-color .35s ease,box-shadow .35s ease,border-color .35s ease}
+.hdr.sc{background-color:rgba(15,21,38,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom-color:#232B42;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.nv{position:relative;transition:color .3s ease}
+.nv::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1px;background:#C9A45C;transform:scaleX(0);transform-origin:0 50%;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.nv:hover{color:#EBD3A0}
+.nv.on{color:#E2C886}
+.nv.on::after,.nv:hover::after{transform:scaleX(1)}
+.lnk:hover{color:#EBD3A0}
+.pill{transition:transform .25s ease,box-shadow .25s ease}
+.pill:hover{color:#111727;transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,164,92,.3)}
+.card{transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s ease}
+.card:hover{transform:translateY(-6px);border-color:#6B5A35}
+.ct{transition:border-color .25s ease,background-color .25s ease}
+.ct:hover{border-color:#6B5A35;background-color:#18213A}
+.fld{transition:border-color .2s ease}
+.fld::placeholder{color:#8A92A6}
+.fld:focus{outline:2px solid #C9A45C;outline-offset:1px;border-color:#C9A45C}
+.spark{filter:drop-shadow(0 0 6px rgba(226,200,134,.55))}
+.bar{display:none}
+.wipe{position:fixed;inset:0;z-index:70;pointer-events:none;visibility:hidden}
+.wipe.in,.wipe.out,.wipe.intro{visibility:visible}
+.wipe-g,.wipe-n{position:absolute;inset:0;transform:translateX(101%)}
+.wipe-g{background:linear-gradient(135deg,#E6CC8C 0%,#C9A45C 55%,#A9853F 100%)}
+.wipe-n{background:#0F1526;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}
+.wipe-logo{width:92px;height:auto;display:block;opacity:0;transform:scale(.85)}
+.wipe-line{display:block;width:120px;height:1px;background:#C9A45C;transform:scaleX(0)}
+.wipe.in .wipe-g{transform:none;transition:transform .5s cubic-bezier(.77,0,.18,1)}
+.wipe.in .wipe-n{transform:none;transition:transform .5s cubic-bezier(.77,0,.18,1) .08s}
+.wipe.in .wipe-logo{opacity:1;transform:none;transition:opacity .3s ease .32s,transform .45s cubic-bezier(.2,.7,.2,1) .3s}
+.wipe.in .wipe-line{transform:scaleX(1);transition:transform .45s cubic-bezier(.2,.7,.2,1) .32s}
+.wipe.out .wipe-n{transform:translateX(-101%);transition:transform .6s cubic-bezier(.77,0,.18,1)}
+.wipe.out .wipe-g{transform:translateX(-101%);transition:transform .6s cubic-bezier(.77,0,.18,1) .09s}
+.wipe.out .wipe-logo{opacity:0;transform:none;transition:opacity .2s ease}
+.wipe.out .wipe-line{transform:scaleX(1);opacity:0;transition:opacity .2s ease}
+.cue{opacity:.85;transition:opacity .25s ease}
+.cue:hover{opacity:1}
+@keyframes ld-up{from{opacity:0;transform:translateY(28px)}
+to{opacity:1;transform:none}
+}
+@keyframes ld-photo{from{opacity:0;transform:translateY(48px) scale(.96)}
+to{opacity:1;transform:none}
+}
+@keyframes slide-in{from{opacity:0;transform:translateX(110px)}
+to{opacity:1;transform:none}
+}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0deg)}
+50%{transform:translate(8px,-16px) rotate(25deg)}
+}
+@keyframes grow{from{transform:scaleX(0)}
+to{transform:scaleX(1)}
+}
+@keyframes hero-out{to{opacity:.1;transform:translateY(-90px)}
+}
+@keyframes hero-photo{to{transform:translateY(60px)}
+}
+@keyframes rise-a{to{transform:translateY(-260px)}
+}
+@keyframes rise-b{to{transform:translateY(-140px)}
+}
+@keyframes px-a{from{transform:translateY(40px)}
+to{transform:translateY(-40px)}
+}
+@keyframes intro-n{0%,55%{transform:none;animation-timing-function:cubic-bezier(.77,0,.18,1)}
+100%{transform:translateX(-101%)}
+}
+@keyframes intro-logo{0%{opacity:0;transform:scale(.85)}
+22%,48%{opacity:1;transform:none}
+60%,100%{opacity:0;transform:none}
+}
+@keyframes intro-line{0%,8%{opacity:1;transform:scaleX(0)}
+38%,48%{opacity:1;transform:scaleX(1)}
+60%,100%{opacity:0;transform:scaleX(1)}
+}
+@keyframes cue{0%{opacity:1;transform:translateY(0)}
+70%{opacity:0;transform:translateY(9px)}
+100%{opacity:0;transform:translateY(0)}
+}
+@media (prefers-reduced-motion: no-preference){
+.wipe.intro .wipe-n{animation:intro-n 1.9s both}
+.wipe.intro .wipe-g{animation:intro-n 1.9s .14s both}
+.wipe.intro .wipe-logo{animation:intro-logo 1.9s both}
+.wipe.intro .wipe-line{animation:intro-line 1.9s both}
+.boot .ld,.boot .ldp{animation:slide-in 1s cubic-bezier(.16,.84,.3,1) 1.35s both}
+.boot .ldp{animation-delay:1.2s}
+.boot .ld2{animation-delay:1.43s}
+.boot .ld3{animation-delay:1.51s}
+.boot .ld4{animation-delay:1.59s}
+.boot .ld5{animation-delay:1.67s}
+.cue-dot{animation:cue 1.8s ease-in-out infinite}
+.spark{animation:drift 7s ease-in-out infinite}
+.sp2{animation-duration:9s;animation-delay:-3s}
+.sp3{animation-duration:11s;animation-delay:-6s}
+.rv,.rv-l,.rv-r,.rv-pop,.rv-z,.rv-line{transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.armed .blk:not(.in) .rv{opacity:0;transform:translateY(52px)}
+.armed .blk:not(.in) .rv-l{opacity:0;transform:translateX(-80px)}
+.armed .blk:not(.in) .rv-r{opacity:0;transform:translateX(80px)}
+.armed .blk:not(.in) .rv-pop{opacity:0;transform:scale(.4) rotate(-14deg)}
+.armed .blk:not(.in) .rv-z{opacity:0;transform:translateY(48px) scale(.92)}
+.armed .blk:not(.in) .rv-line{transform:scaleX(0)}
+.d1{transition-delay:.1s}
+.d2{transition-delay:.2s}
+.d3{transition-delay:.3s}
+.d4{transition-delay:.4s}
+.d5{transition-delay:.5s}
+.d6{transition-delay:.6s}
+.replay .rv,.replay .rv-l,.replay .rv-r,.replay .rv-z,.replay .rv-pop,.replay .rv-line,.replay .ld,.replay .ldp{animation:slide-in .95s cubic-bezier(.16,.84,.3,1) .12s both}
+.replay .d1,.replay .ld2{animation-delay:.2s}
+.replay .d2,.replay .ld3{animation-delay:.28s}
+.replay .d3,.replay .ld4{animation-delay:.36s}
+.replay .d4,.replay .ld5{animation-delay:.44s}
+.replay .d5,.replay .ldp{animation-delay:.52s}
+.replay .d6{animation-delay:.6s}
+@supports (animation-timeline: view()){
+.bar{display:block;position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:#C9A45C;transform-origin:0 50%;animation:grow auto linear both;animation-timeline:scroll(root)}
+.hout{animation:hero-out auto linear both;animation-timeline:scroll(root);animation-range:0px 720px}
+.hph{animation:hero-photo auto linear both;animation-timeline:scroll(root);animation-range:0px 900px}
+.ra{animation:rise-a auto linear both;animation-timeline:scroll(root);animation-range:0px 1100px}
+.rb{animation:rise-b auto linear both;animation-timeline:scroll(root);animation-range:0px 1100px}
+.pxa{animation:px-a auto linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+}
+}
+

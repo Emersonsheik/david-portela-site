@@ -1,0 +1,10 @@
+/* David Portela — link na bio */
+body{margin:0;background:#111727}
+
+a{color:#D9BC7E;text-decoration:none}
+a:hover{color:#EBD3A0}
+
+.lk{transition:border-color .2s ease,background-color .2s ease}
+
+.lk:hover{border-color:#C9A45C;background-color:#1A2238}
+
